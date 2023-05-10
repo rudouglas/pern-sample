@@ -4,9 +4,9 @@ const cors = require("cors");
 
 const app = express();
 
-// var corsOptions = {
-//   origin: "https://0.0.0.0:8081"
-// };
+var corsOptions = {
+  origin: "https://pern-example.onrender.com/:4000"
+};
 
 app.use(cors());
 // app.use(express.static(path));// const bodyParser = require("body-parser"); /* deprecated */
@@ -48,6 +48,8 @@ require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
+console.log({PORT})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
