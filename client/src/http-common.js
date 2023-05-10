@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://0.0.0.0:10000/api",
+  baseURL: "https://pern-example.onrender.com/api",
   headers: {
     "Content-type": "application/json"
   }
