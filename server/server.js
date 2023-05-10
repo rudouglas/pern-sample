@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
     level: "WARNING",
     error: new Error("missing.txt"),
   });
-  res.sendFile(path + "index.html")
+  res.json({ message: "Welcome to bezkoder application." });
 });
 
 require("./app/routes/turorial.routes")(app);
