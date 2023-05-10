@@ -1,12 +1,8 @@
 const newrelic = require("newrelic");
 const express = require("express");
 const cors = require("cors");
-const https = require("https");
 
-const path = __dirname + '/app/views/';
 const app = express();
-
-app.use(express.static(path));
 
 // var corsOptions = {
 //   origin: "https://0.0.0.0:8081"
@@ -27,11 +23,7 @@ db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
-https
-  .createServer(app)
-  .listen(4000, ()=>{
-    console.log('server is runing at port 4000')
-  });
+
 // simple route
 app.get("/", (req, res) => {
   newrelic.recordLogEvent({
