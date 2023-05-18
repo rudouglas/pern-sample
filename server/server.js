@@ -22,24 +22,24 @@ db.sequelize.sync();
 // });
 
 // simple route
-// app.get("/", (req, res) => {
-//   newrelic.recordLogEvent({
-//     message: "cannot find file",
-//     level: "ERROR",
-//     error: new Error("missing.txt"),
-//   });
-//   newrelic.recordLogEvent({
-//     message: "cannot find file",
-//     level: "INFO",
-//     error: new Error("missing.txt"),
-//   });
-//   newrelic.recordLogEvent({
-//     message: "cannot find file",
-//     level: "WARNING",
-//     error: new Error("missing.txt"),
-//   });
-//   res.json({ message: "Welcome to bezkoder application." });
-// });
+app.get("/", (req, res) => {
+  newrelic.recordLogEvent({
+    message: "cannot find file",
+    level: "ERROR",
+    error: new Error("missing.txt"),
+  });
+  newrelic.recordLogEvent({
+    message: "cannot find file",
+    level: "INFO",
+    error: new Error("missing.txt"),
+  });
+  newrelic.recordLogEvent({
+    message: "cannot find file",
+    level: "WARNING",
+    error: new Error("missing.txt"),
+  });
+  res.json({ message: "Welcome to bezkoder application." });
+});
 
 require("./app/routes/turorial.routes")(app);
 
