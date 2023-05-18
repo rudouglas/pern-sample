@@ -1,21 +1,18 @@
 const newrelic = require("newrelic");
 const express = require("express");
-const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-  origin: "https://pern-example.onrender.com/:4000"
-};
+app.use(express.json());
 
-app.use(cors());
-// app.use(express.static(path));// const bodyParser = require("body-parser"); /* deprecated */
-
-// parse requests of content-type - application/json
-app.use(express.json());  /* bodyParser.json() is deprecated */
-
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
 
 const db = require("./app/models");
 db.sequelize.sync();
@@ -25,24 +22,24 @@ db.sequelize.sync();
 // });
 
 // simple route
-app.get("/", (req, res) => {
-  newrelic.recordLogEvent({
-    message: "cannot find file",
-    level: "ERROR",
-    error: new Error("missing.txt"),
-  });
-  newrelic.recordLogEvent({
-    message: "cannot find file",
-    level: "INFO",
-    error: new Error("missing.txt"),
-  });
-  newrelic.recordLogEvent({
-    message: "cannot find file",
-    level: "WARNING",
-    error: new Error("missing.txt"),
-  });
-  res.json({ message: "Welcome to bezkoder application." });
-});
+// app.get("/", (req, res) => {
+//   newrelic.recordLogEvent({
+//     message: "cannot find file",
+//     level: "ERROR",
+//     error: new Error("missing.txt"),
+//   });
+//   newrelic.recordLogEvent({
+//     message: "cannot find file",
+//     level: "INFO",
+//     error: new Error("missing.txt"),
+//   });
+//   newrelic.recordLogEvent({
+//     message: "cannot find file",
+//     level: "WARNING",
+//     error: new Error("missing.txt"),
+//   });
+//   res.json({ message: "Welcome to bezkoder application." });
+// });
 
 require("./app/routes/turorial.routes")(app);
 
