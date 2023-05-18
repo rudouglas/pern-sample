@@ -1,11 +1,12 @@
 const newrelic = require("newrelic");
 const express = require("express");
+const path = require('path');
 
 const cors = require("cors");
 
 const app = express();
-const path = __dirname + '../client/build/';
-app.use(express.static(path));
+const buildPath = path.join(__dirname, '../client/build/');
+app.use(express.static(buildPath));
 
 var corsOptions = {
   origin: "http://localhost:8081"
