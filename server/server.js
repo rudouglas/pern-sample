@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const path = __dirname + '../client/build/';
+app.use(express.static(path));
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -42,7 +44,7 @@ app.get("/", (req, res) => {
     level: "WARNING",
     error: new Error("missing.txt"),
   });
-  res.json({ message: "Welcome to bezkoder application." });
+  res.sendFile(path + "index.html");
 });
 
 require("./app/routes/turorial.routes")(app);
