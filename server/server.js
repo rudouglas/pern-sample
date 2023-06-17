@@ -6,7 +6,10 @@ const cors = require("cors");
 
 const app = express();
 const buildPath = path.join(__dirname, '../client/build/');
-app.use(express.static(buildPath));
+
+
+// Use for static builds
+// app.use(express.static(buildPath));
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -45,7 +48,11 @@ app.get("/", (req, res) => {
     level: "WARNING",
     error: new Error("missing.txt"),
   });
-  res.sendFile(path + "index.html");
+  // use for static builds
+  // res.sendFile(path + "index.html");
+
+  // use for dynamic builds
+  res.json({ message: "Welcome to bezkoder application." });
 });
 
 require("./app/routes/turorial.routes")(app);

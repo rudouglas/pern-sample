@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from "react";
 import TutorialDataService from "../services/TutorialService";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import { Link } from "react-router-dom";
-
+const sleep = (time = 5000) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+const stack = [];
+for (let i = 0; i < 50; i++) {
+  stack.push(`option ${i % 10} ${i}`);
+}
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
+  const [options, setOptions] = React.useState([]);
 
+  const search = async (s) => {
+    await sleep(500);
+    setOptions(stack.filter((value) => value.includes(s)));
+  };
   useEffect(() => {
     retrieveTutorials();
   }, []);
@@ -63,88 +77,25 @@ const TutorialsList = () => {
 
   return (
     <div className="list row">
-      <div className="col-md-8">
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by title"
-            value={searchTitle}
-            onChange={onChangeSearchTitle}
-          />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={findByTitle}
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="col-md-6">
-        <h4>Tutorials List</h4>
-
-        <ul className="list-group">
-          {tutorials &&
-            tutorials.map((tutorial, index) => (
-              <li
-                className={
-                  "list-group-item " + (index === currentIndex ? "active" : "")
-                }
-                onClick={() => setActiveTutorial(tutorial, index)}
-                key={index}
-              >
-                {tutorial.title}
-              </li>
-            ))}
-        </ul>
-
-        <button
-          className="m-3 btn btn-sm btn-danger"
-          onClick={removeAllTutorials}
-        >
-          Remove All
-        </button>
-      </div>
-      <div className="col-md-6">
-        {currentTutorial ? (
-          <div>
-            <h4>Tutorial</h4>
-            <div>
-              <label>
-                <strong>Title:</strong>
-              </label>{" "}
-              {currentTutorial.title}
-            </div>
-            <div>
-              <label>
-                <strong>Description:</strong>
-              </label>{" "}
-              {currentTutorial.description}
-            </div>
-            <div>
-              <label>
-                <strong>Status:</strong>
-              </label>{" "}
-              {currentTutorial.published ? "Published" : "Pending"}
-            </div>
-
-            <Link
-              to={"/tutorials/" + currentTutorial.id}
-              className="badge badge-warning"
-            >
-              Edit
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on a Tutorial...</p>
-          </div>
-        )}
-      </div>
+      <Autocomplete
+          autoHighlight
+          onHighlightChange={(event, option, reason) => {
+            console.log('onHighlightChange', option);
+          }}
+          filterOptions={(x) => x}
+          
+          options={options}
+          getOptionLabel={(option) => option}
+          style={{ width: 300 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Combo box"
+              variant="outlined"
+              onChange={async (event) => await search(event.target.value)}
+            />
+          )}
+        />
     </div>
   );
 };
